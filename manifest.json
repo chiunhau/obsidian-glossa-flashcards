@@ -1,0 +1,10 @@
+{
+	"id": "glossa-flashcards",
+	"name": "Glossa Flashcards",
+	"version": "0.1.4",
+	"minAppVersion": "0.15.0",
+	"description": "Turn any text into living vocabulary.",
+	"author": "chiunhau",
+	"authorUrl": "https://github.com/chiunhau",
+	"isDesktopOnly": false
+}
