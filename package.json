@@ -1,6 +1,6 @@
 {
 	"name": "glossa-flashcards-plugin",
-	"version": "0.1.10",
+	"version": "0.1.11",
 	"description": "Obsidian plugin — turn any text into living vocabulary.",
 	"main": "main.js",
 	"scripts": {

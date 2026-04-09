@@ -1,7 +1,7 @@
 {
 	"id": "glossa-flashcards",
 	"name": "Glossa Flashcards",
-	"version": "0.1.10",
+	"version": "0.1.11",
 	"minAppVersion": "0.15.0",
 	"description": "Turn any text into AI-powered vocabulary flashcards.",
 	"author": "chiunhau",
