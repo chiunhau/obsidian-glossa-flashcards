@@ -3,7 +3,7 @@
 	"name": "Glossa Flashcards",
 	"version": "0.1.8",
 	"minAppVersion": "0.15.0",
-	"description": "Turn any text into AI-generated vocabulary flashcards.",
+	"description": "Turn any text into AI-powered vocabulary flashcards.",
 	"author": "chiunhau",
 	"authorUrl": "https://github.com/chiunhau",
 	"isDesktopOnly": false,
