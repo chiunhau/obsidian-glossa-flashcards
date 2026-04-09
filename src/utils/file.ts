@@ -22,7 +22,8 @@ export async function ensureFolderExists(app: App, folderPath: string): Promise<
 
 function fmValueToString(val: unknown): string {
   if (val === null || val === undefined) return "";
-  if (Array.isArray(val)) return val.map(String).join(", ");
+  if (Array.isArray(val)) return val.map((v) => fmValueToString(v)).join(", ");
+  if (typeof val === "object") return JSON.stringify(val);
   return String(val);
 }
 

@@ -1,4 +1,4 @@
-import { type App, Notice, normalizePath, requestUrl } from "obsidian";
+import { type App, Notice, TFile, normalizePath, requestUrl } from "obsidian";
 import type { PluginSettings } from "../types";
 import { ensureFolderExists, sanitizeFilename } from "../utils/file";
 
@@ -197,7 +197,7 @@ async function createNote(
 
 	if (existingFile) {
 		const leaf = app.workspace.getLeaf("tab");
-		await leaf.openFile(existingFile as any);
+		await leaf.openFile(existingFile as TFile);
 		new Notice(`"${noteTitle}" already exists — opened it.`);
 		return noteTitle;
 	}
@@ -239,9 +239,9 @@ export async function generateFlashcard(
 
 		loadingNotice.hide();
 		return await createNote(app, settings, flashcard, sourceText);
-	} catch (err: any) {
+	} catch (err: unknown) {
 		loadingNotice.hide();
-		const message = err?.message || String(err);
+		const message = err instanceof Error ? err.message : String(err);
 		new Notice(`Flashcard generation failed: ${message}`);
 		console.error("Flashcard error:", err);
 		return null;

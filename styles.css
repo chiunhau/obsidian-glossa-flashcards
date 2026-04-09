@@ -9,6 +9,30 @@
   justify-content: flex-start;
 }
 
+/* Settings – code-style textarea inputs */
+.glossa-setting-textarea {
+  width: 100%;
+  font-family: var(--font-monospace);
+  font-size: 0.85em;
+  height: var(--glossa-textarea-height, 100px);
+}
+
+/* Settings – fixed-width text inputs */
+.glossa-input-wide {
+  width: 300px;
+}
+
+.glossa-input-medium {
+  width: 250px;
+}
+
+/* Flashcard input modal */
+.glossa-modal-input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 12px;
+}
+
 /* Practice Setup */
 .practice-setup-subtitle {
   color: var(--text-muted);
@@ -82,6 +106,10 @@
   padding: 32px 24px;
   margin: 8px 0 16px;
   transition: box-shadow 0.2s ease;
+}
+
+.practice-card:not(.flipped) {
+  cursor: pointer;
 }
 
 .practice-card:not(.flipped):hover {

@@ -18,9 +18,7 @@ export class FlashcardInputModal extends Modal {
       type: "text",
       placeholder: `Type a ${this.language} word or phrase…`,
     });
-    inputEl.style.width = "100%";
-    inputEl.style.padding = "8px";
-    inputEl.style.marginBottom = "12px";
+    inputEl.addClass("glossa-modal-input");
     inputEl.focus();
 
     inputEl.addEventListener("keydown", (e) => {

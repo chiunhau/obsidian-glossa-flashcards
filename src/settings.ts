@@ -56,7 +56,7 @@ export class FlashcardSettingTab extends PluginSettingTab {
 
     // ── General ───────────────────────────────────────────────────────────────
 
-    containerEl.createEl("h2", { text: "General" });
+    new Setting(containerEl).setName("General").setHeading();
 
     new Setting(containerEl)
       .setName("API key")
@@ -67,7 +67,7 @@ export class FlashcardSettingTab extends PluginSettingTab {
           .setValue(this.plugin.settings.geminiApiKey)
           .then((t) => {
             t.inputEl.type = "password";
-            t.inputEl.style.width = "300px";
+            t.inputEl.addClass("glossa-input-wide");
           })
           .onChange(async (value) => {
             this.plugin.settings.geminiApiKey = value;
@@ -77,13 +77,13 @@ export class FlashcardSettingTab extends PluginSettingTab {
 
     new Setting(containerEl)
       .setName("Model")
-      .setDesc("Gemini model ID (e.g. gemini-2.5-flash-lite, gemini-2.5-flash).")
+      .setDesc("Gemini model (e.g. gemini-2.5-flash-lite, gemini-2.5-flash).")
       .addText((text) =>
         text
-          .setPlaceholder("gemini-2.5-flash-lite")
+          .setPlaceholder("E.g. gemini-2.5-flash-lite")
           .setValue(this.plugin.settings.geminiModel)
           .then((t) => {
-            t.inputEl.style.width = "250px";
+            t.inputEl.addClass("glossa-input-medium");
           })
           .onChange(async (value) => {
             this.plugin.settings.geminiModel = value.trim() || "gemini-2.5-flash-lite";
@@ -106,14 +106,14 @@ export class FlashcardSettingTab extends PluginSettingTab {
 
     // ── Generation ────────────────────────────────────────────────────────────
 
-    containerEl.createEl("h2", { text: "Generation" });
+    new Setting(containerEl).setName("Generation").setHeading();
 
     new Setting(containerEl)
       .setName("Language")
       .setDesc("Language you are learning. Available in the prompt as {{language}}.")
       .addText((text) =>
         text
-          .setPlaceholder("e.g. Finnish")
+          .setPlaceholder("E.g. Finnish")
           .setValue(this.plugin.settings.language)
           .onChange(async (value) => {
             this.plugin.settings.language = value;
@@ -129,10 +129,8 @@ export class FlashcardSettingTab extends PluginSettingTab {
           .setPlaceholder("Enter prompt...")
           .setValue(this.plugin.settings.customPrompt)
           .then((t) => {
-            t.inputEl.style.width = "100%";
-            t.inputEl.style.height = "160px";
-            t.inputEl.style.fontFamily = "monospace";
-            t.inputEl.style.fontSize = "0.85em";
+            t.inputEl.addClass("glossa-setting-textarea");
+            t.inputEl.setCssProps({ "--glossa-textarea-height": "160px" });
           })
           .onChange(async (value) => {
             this.plugin.settings.customPrompt = value;
@@ -143,28 +141,25 @@ export class FlashcardSettingTab extends PluginSettingTab {
 
     containerEl.createDiv({ cls: "modal-button-container" })
       .createEl("button", { text: "Reset to default" })
-      .addEventListener("click", async () => {
+      .addEventListener("click", () => {
         this.plugin.settings.customPrompt = DEFAULT_PROMPT;
-        await this.plugin.saveSettings();
-        this.display();
+        void this.plugin.saveSettings().then(() => this.display());
       });
 
     // ── Output ────────────────────────────────────────────────────────────────
 
-    containerEl.createEl("h2", { text: "Output" });
+    new Setting(containerEl).setName("Output").setHeading();
 
     const outputFieldsSetting = new Setting(containerEl)
       .setName("Output fields")
-      .setDesc("One per line: fieldKey: Description. The AI returns each field as structured data; descriptions guide its output.")
+      .setDesc("One per line: field_key: description. The AI returns each field as structured data; descriptions guide its output.")
       .addTextArea((text) =>
         text
-          .setPlaceholder("field_key: Description for the AI")
+          .setPlaceholder("E.g. translation: English translation")
           .setValue(this.plugin.settings.outputFields)
           .then((t) => {
-            t.inputEl.style.width = "100%";
-            t.inputEl.style.height = "180px";
-            t.inputEl.style.fontFamily = "monospace";
-            t.inputEl.style.fontSize = "0.85em";
+            t.inputEl.addClass("glossa-setting-textarea");
+            t.inputEl.setCssProps({ "--glossa-textarea-height": "180px" });
           })
           .onChange(async (value) => {
             this.plugin.settings.outputFields = value;
@@ -175,24 +170,23 @@ export class FlashcardSettingTab extends PluginSettingTab {
 
     containerEl.createDiv({ cls: "modal-button-container" })
       .createEl("button", { text: "Reset to default" })
-      .addEventListener("click", async () => {
+      .addEventListener("click", () => {
         this.plugin.settings.outputFields = DEFAULT_OUTPUT_FIELDS;
-        await this.plugin.saveSettings();
-        this.display();
+        void this.plugin.saveSettings().then(() => this.display());
       });
 
     
 
     // ── Note ──────────────────────────────────────────────────────────────────
 
-    containerEl.createEl("h2", { text: "Note" });
+    new Setting(containerEl).setName("Note").setHeading();
 
     new Setting(containerEl)
       .setName("Title")
       .setDesc("Output field whose value becomes the note filename.")
       .addText((text) =>
         text
-          .setPlaceholder("dictionary_form")
+          .setPlaceholder("E.g. dictionary_form")
           .setValue(this.plugin.settings.titleField)
           .onChange(async (value) => {
             this.plugin.settings.titleField = value.trim();
@@ -208,10 +202,8 @@ export class FlashcardSettingTab extends PluginSettingTab {
           .setPlaceholder("{{example_1}} ({{example_1_translation}})")
           .setValue(this.plugin.settings.noteBodyTemplate)
           .then((t) => {
-            t.inputEl.style.width = "100%";
-            t.inputEl.style.height = "120px";
-            t.inputEl.style.fontFamily = "monospace";
-            t.inputEl.style.fontSize = "0.85em";
+            t.inputEl.addClass("glossa-setting-textarea");
+            t.inputEl.setCssProps({ "--glossa-textarea-height": "120px" });
           })
           .onChange(async (value) => {
             this.plugin.settings.noteBodyTemplate = value;
@@ -222,10 +214,9 @@ export class FlashcardSettingTab extends PluginSettingTab {
 
     containerEl.createDiv({ cls: "modal-button-container" })
       .createEl("button", { text: "Reset to default" })
-      .addEventListener("click", async () => {
+      .addEventListener("click", () => {
         this.plugin.settings.noteBodyTemplate = DEFAULT_NOTE_BODY_TEMPLATE;
-        await this.plugin.saveSettings();
-        this.display();
+        void this.plugin.saveSettings().then(() => this.display());
       });
 
     const propertiesSetting = new Setting(containerEl)
@@ -236,10 +227,8 @@ export class FlashcardSettingTab extends PluginSettingTab {
           .setPlaceholder("word_class: {{word_class}}\ntranslation: {{translation}}\ngroup: Default")
           .setValue(this.plugin.settings.frontmatterConfig)
           .then((t) => {
-            t.inputEl.style.width = "100%";
-            t.inputEl.style.height = "140px";
-            t.inputEl.style.fontFamily = "monospace";
-            t.inputEl.style.fontSize = "0.85em";
+            t.inputEl.addClass("glossa-setting-textarea");
+            t.inputEl.setCssProps({ "--glossa-textarea-height": "140px" });
           })
           .onChange(async (value) => {
             this.plugin.settings.frontmatterConfig = value;
@@ -250,15 +239,14 @@ export class FlashcardSettingTab extends PluginSettingTab {
 
     containerEl.createDiv({ cls: "modal-button-container" })
       .createEl("button", { text: "Reset to default" })
-      .addEventListener("click", async () => {
+      .addEventListener("click", () => {
         this.plugin.settings.frontmatterConfig = DEFAULT_FRONTMATTER_CONFIG;
-        await this.plugin.saveSettings();
-        this.display();
+        void this.plugin.saveSettings().then(() => this.display());
       });
 
     // ── Practice ──────────────────────────────────────────────────────────────
 
-    containerEl.createEl("h2", { text: "Practice" });
+    new Setting(containerEl).setName("Practice").setHeading();
 
     const cardFrontSetting = new Setting(containerEl)
       .setName("Card front")
@@ -268,10 +256,8 @@ export class FlashcardSettingTab extends PluginSettingTab {
           .setPlaceholder("{{title}}")
           .setValue(this.plugin.settings.practiceCardFront)
           .then((t) => {
-            t.inputEl.style.width = "100%";
-            t.inputEl.style.height = "80px";
-            t.inputEl.style.fontFamily = "monospace";
-            t.inputEl.style.fontSize = "0.85em";
+            t.inputEl.addClass("glossa-setting-textarea");
+            t.inputEl.setCssProps({ "--glossa-textarea-height": "80px" });
           })
           .onChange(async (value) => {
             this.plugin.settings.practiceCardFront = value;
@@ -288,10 +274,8 @@ export class FlashcardSettingTab extends PluginSettingTab {
           .setPlaceholder("{{translation}}")
           .setValue(this.plugin.settings.practiceCardBack)
           .then((t) => {
-            t.inputEl.style.width = "100%";
-            t.inputEl.style.height = "80px";
-            t.inputEl.style.fontFamily = "monospace";
-            t.inputEl.style.fontSize = "0.85em";
+            t.inputEl.addClass("glossa-setting-textarea");
+            t.inputEl.setCssProps({ "--glossa-textarea-height": "80px" });
           })
           .onChange(async (value) => {
             this.plugin.settings.practiceCardBack = value;
@@ -305,9 +289,9 @@ export class FlashcardSettingTab extends PluginSettingTab {
       .setDesc("Comma-separated property keys shown as filter options in the practice setup. Each becomes a checkbox group of all unique values found in your notes.")
       .addText((text) =>
         text
-          .setPlaceholder("word_class, group")
+          .setPlaceholder("E.g. word_class, group")
           .setValue(this.plugin.settings.practiceFilters)
-          .then((t) => { t.inputEl.style.width = "250px"; })
+          .then((t) => { t.inputEl.addClass("glossa-input-medium"); })
           .onChange(async (value) => {
             this.plugin.settings.practiceFilters = value;
             await this.plugin.saveSettings();

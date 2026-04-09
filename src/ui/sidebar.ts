@@ -28,7 +28,7 @@ export class FlashcardsSidebarView extends ItemView {
     return "languages";
   }
 
-  async onOpen() {
+  onOpen(): Promise<void> {
     this.registerEvent(
       this.app.workspace.on("active-leaf-change", () => {
         const activeFile = this.app.workspace.getActiveFile();
@@ -36,7 +36,7 @@ export class FlashcardsSidebarView extends ItemView {
         this.updateView();
       })
     );
-    
+
     this.registerEvent(
       this.app.metadataCache.on("resolved", () => {
         this.updateView();
@@ -44,10 +44,12 @@ export class FlashcardsSidebarView extends ItemView {
     );
 
     this.updateView();
+    return Promise.resolve();
   }
 
-  async onClose() {
+  onClose(): Promise<void> {
     this.contentEl.empty();
+    return Promise.resolve();
   }
 
   updateView() {
@@ -124,7 +126,7 @@ export class FlashcardsSidebarView extends ItemView {
       });
 
       cardEl.addEventListener("click", () => {
-        this.app.workspace.openLinkText(card.file.basename, card.file.path, "tab");
+        void this.app.workspace.openLinkText(card.file.basename, card.file.path, "tab");
       });
 
       cardEl.createEl("span", {

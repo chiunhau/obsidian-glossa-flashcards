@@ -35,19 +35,19 @@ export default class FlashcardPlugin extends Plugin {
       id: "open-flashcards-sidebar",
       name: "Open flashcards sidebar",
       callback: () => {
-        this.activateSidebar();
+        void this.activateSidebar();
       },
     });
 
     this.addRibbonIcon("sidebar-open", "Open flashcards sidebar", () => {
-      this.activateSidebar();
+      void this.activateSidebar();
     });
 
     this.addCommand({
       id: "create-flashcard-from-selection",
       name: "Create flashcard from selection",
       editorCallback: (editor: Editor, view: MarkdownView) => {
-        this.createFlashcard(editor);
+        void this.createFlashcard(editor);
       },
     });
 
@@ -56,14 +56,14 @@ export default class FlashcardPlugin extends Plugin {
       name: "Create flashcard from input",
       callback: () => {
         new FlashcardInputModal(this.app, this.settings.language, (text) => {
-          this.createFlashcardFromText(text);
+          void this.createFlashcardFromText(text);
         }).open();
       },
     });
 
     this.addRibbonIcon("languages", "Create flashcard", () => {
       new FlashcardInputModal(this.app, this.settings.language, (text) => {
-        this.createFlashcardFromText(text);
+        void this.createFlashcardFromText(text);
       }).open();
     });
 
@@ -104,7 +104,7 @@ export default class FlashcardPlugin extends Plugin {
               .setTitle(`Create flashcard for "${selection}"`)
               .setIcon("languages")
               .onClick(() => {
-                this.createFlashcard(editor);
+                void this.createFlashcard(editor);
               });
           });
 
@@ -113,7 +113,7 @@ export default class FlashcardPlugin extends Plugin {
               .setTitle(`Create flashcard for "${selection}" manually`)
               .setIcon("pencil")
               .onClick(() => {
-                this.createManualFlashcard(editor);
+                void this.createManualFlashcard(editor);
               });
           });
         }
@@ -183,7 +183,7 @@ export default class FlashcardPlugin extends Plugin {
     const existingFile = this.app.vault.getAbstractFileByPath(filePath);
     if (existingFile) {
       const leaf = this.app.workspace.getLeaf("tab");
-      await leaf.openFile(existingFile as any);
+      await leaf.openFile(existingFile as TFile);
       new Notice(`"${noteTitle}" already exists — opened it.`);
       editor.replaceSelection(`[[${noteTitle}|${selectedText}]]`);
       return;
@@ -291,7 +291,7 @@ export default class FlashcardPlugin extends Plugin {
     }
 
     if (leaf) {
-      workspace.revealLeaf(leaf);
+      void workspace.revealLeaf(leaf);
     }
   }
 }

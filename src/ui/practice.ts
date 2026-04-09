@@ -1,4 +1,4 @@
-import { App, Modal, Notice, Setting, TFile } from "obsidian";
+import { App, Modal, Notice, Setting } from "obsidian";
 import { FlashcardData } from "../types";
 
 function renderTemplate(template: string, card: FlashcardData): string {
@@ -43,7 +43,7 @@ export class PracticeSetupModal extends Modal {
   onOpen() {
     const { contentEl } = this;
     contentEl.addClass("practice-setup-modal");
-    contentEl.createEl("h2", { text: "Practice Flashcards" });
+    contentEl.createEl("h2", { text: "Practice flashcards" });
     contentEl.createEl("p", {
       text: `${this.allCards.length} flashcard(s) available`,
       cls: "practice-setup-subtitle",
@@ -72,7 +72,7 @@ export class PracticeSetupModal extends Modal {
 
       for (const val of allValues) {
         const lbl = container.createEl("label", { cls: "practice-wc-label" });
-        const cb = lbl.createEl("input", { type: "checkbox" }) as HTMLInputElement;
+        const cb = lbl.createEl("input", { type: "checkbox" });
         cb.checked = true;
         cb.addEventListener("change", () => {
           const selected = this.selectedFilters.get(key)!;
@@ -191,9 +191,8 @@ export class PracticeModal extends Modal {
     });
 
     if (!this.isFlipped) {
-      contentEl.createDiv({ cls: "practice-hint" }).setText("Press Space or click to reveal");
+      contentEl.createDiv({ cls: "practice-hint" }).setText("Press space or click to reveal");
       cardEl.addEventListener("click", () => this.flipCard());
-      cardEl.style.cursor = "pointer";
     } else {
       cardEl.addClass("flipped");
       cardEl.createEl("div", { cls: "practice-divider" });
@@ -233,7 +232,7 @@ export class PracticeModal extends Modal {
     const known = this.results.filter((r) => r === "know").length;
     const total = this.cards.length;
 
-    contentEl.createEl("h2", { text: "Session Complete!" });
+    contentEl.createEl("h2", { text: "Session complete!" });
 
     const scoreEl = contentEl.createDiv({ cls: "practice-score" });
     scoreEl.createEl("span", { text: `${known}`, cls: "practice-score-num" });
@@ -255,7 +254,7 @@ export class PracticeModal extends Modal {
         link.addEventListener("click", (e) => {
           e.preventDefault();
           this.close();
-          this.app.workspace.getLeaf("tab").openFile(card.file);
+          void this.app.workspace.getLeaf("tab").openFile(card.file);
         });
       }
     } else {
