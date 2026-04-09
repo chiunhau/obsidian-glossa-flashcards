@@ -40,7 +40,7 @@ No other data is collected or transmitted.
 
 1. Install **BRAT** from the Obsidian Community Plugins.
 2. Open **Settings → BRAT → Add Beta Plugin**.
-3. Enter the repository URL: `https://github.com/chiunhau/glossa-flashcards-plugin`
+3. Enter the repository URL: `https://github.com/chiunhau/obsidian-glossa-flashcards`
 4. Click **Add Plugin**, then enable **Glossa Flashcards** in **Settings → Community Plugins**.
 
 ### Obsidian Plugin — Manual
