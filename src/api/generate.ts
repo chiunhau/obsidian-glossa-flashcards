@@ -1,7 +1,4 @@
-import { createGoogleGenerativeAI } from "@ai-sdk/google";
-import { generateText, Output } from "ai";
 import { type App, Notice, normalizePath, requestUrl } from "obsidian";
-import { z } from "zod";
 import type { PluginSettings } from "../types";
 import { ensureFolderExists, sanitizeFilename } from "../utils/file";
 
@@ -28,16 +25,18 @@ function parseOutputFields(str: string): OutputField[] {
 		.filter((f) => f.key.length > 0);
 }
 
-function buildSchema(
-	fields: OutputField[],
-): z.ZodObject<Record<string, z.ZodType>> {
-	const shape: Record<string, z.ZodType> = {};
+function buildJsonSchema(fields: OutputField[]): object {
+	const properties: Record<string, object> = {};
 	for (const f of fields) {
-		shape[f.key] = f.description
-			? z.string().describe(f.description)
-			: z.string();
+		properties[f.key] = f.description
+			? { type: "string", description: f.description }
+			: { type: "string" };
 	}
-	return z.object(shape);
+	return {
+		type: "object",
+		properties,
+		required: fields.map((f) => f.key),
+	};
 }
 
 function renderTemplate(
@@ -99,19 +98,35 @@ async function callDirectGemini(
 		);
 	}
 
-	const google = createGoogleGenerativeAI({ apiKey: settings.geminiApiKey });
-	const schema = buildSchema(fields);
 	const prompt = settings.customPrompt
 		.replace(/\{\{language\}\}/g, settings.language)
 		.replace(/\{\{source_text\}\}/g, sourceText.trim());
 
-	const { output: flashcard } = await generateText({
-		model: google(settings.geminiModel),
-		output: Output.object({ schema }),
-		prompt,
+	const url = `https://generativelanguage.googleapis.com/v1beta/models/${settings.geminiModel}:generateContent?key=${settings.geminiApiKey}`;
+
+	const response = await requestUrl({
+		url,
+		method: "POST",
+		headers: { "Content-Type": "application/json" },
+		body: JSON.stringify({
+			contents: [{ parts: [{ text: prompt }] }],
+			generationConfig: {
+				responseMimeType: "application/json",
+				responseSchema: buildJsonSchema(fields),
+			},
+		}),
+		throw: false,
 	});
 
-	return flashcard as Record<string, string>;
+	if (response.status !== 200) {
+		const errMsg = response.json?.error?.message ?? `Gemini error (${response.status})`;
+		throw new Error(errMsg);
+	}
+
+	const text: string = response.json?.candidates?.[0]?.content?.parts?.[0]?.text;
+	if (!text) throw new Error("Empty response from Gemini.");
+
+	return JSON.parse(text) as Record<string, string>;
 }
 
 async function callProProxy(

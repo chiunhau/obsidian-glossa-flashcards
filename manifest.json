@@ -3,8 +3,9 @@
 	"name": "Glossa Flashcards",
 	"version": "0.1.7",
 	"minAppVersion": "0.15.0",
-	"description": "Turn any text into living vocabulary.",
+	"description": "Turn any text into AI-generated vocabulary flashcards.",
 	"author": "chiunhau",
 	"authorUrl": "https://github.com/chiunhau",
-	"isDesktopOnly": false
+	"isDesktopOnly": false,
+	"fundingUrl": "https://buymeacoffee.com/chiunhau"
 }

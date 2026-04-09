@@ -26,10 +26,5 @@
 		"obsidian": "^1.12.2",
 		"tslib": "2.4.0",
 		"typescript": "^5.9.3"
-	},
-	"dependencies": {
-		"@ai-sdk/google": "^3.0.30",
-		"ai": "^6.0.97",
-		"zod": "^4.3.6"
 	}
 }

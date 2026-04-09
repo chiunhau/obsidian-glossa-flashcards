@@ -33,12 +33,12 @@ Every part of the pipeline is configurable: the AI prompt, output fields, note b
 
 1. Install **BRAT** from the Obsidian Community Plugins.
 2. Open **Settings → BRAT → Add Beta Plugin**.
-3. Enter the repository URL: `https://github.com/chiunhau/glossa-flashcards`
+3. Enter the repository URL: `https://github.com/chiunhau/glossa-flashcards-plugin`
 4. Click **Add Plugin**, then enable **Glossa Flashcards** in **Settings → Community Plugins**.
 
 ### Obsidian Plugin — Manual
 
-1. Go to the [latest release](https://github.com/chiunhau/glossa-flashcards/releases/latest) and download `main.js`, `manifest.json`, and `styles.css`.
+1. Go to the [latest release](https://github.com/chiunhau/glossa-flashcards-plugin/releases/latest) and download `main.js`, `manifest.json`, and `styles.css`.
 2. In your vault, create the folder `.obsidian/plugins/glossa-flashcards/`.
 3. Move the three downloaded files into that folder.
 4. In Obsidian, go to **Settings → Community Plugins**, enable community plugins if prompted, and toggle on **Glossa Flashcards**.
